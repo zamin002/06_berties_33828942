@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Berties Book Shop</title>
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+</head>
+<body>
+    <h1>Berties Book Shop</h1>
+    <h2>Here are the books we sell</h2>
+
+    <!-- Loop through books passed from the server-->
+    <ul>
+        <% availableBooks.forEach(book => { %>
+            <li>
+                <!-- Show the name and price of each book -->
+                <strong><%= book.name %></strong> — £<%= book.price %>
+            </li>
+        <% }) %>
+    </ul>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>

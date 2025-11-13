@@ -1,10 +1,115 @@
-# Berties Books
+# Berties Books – Dynamic Web Applications Lab 6  
+**Student ID:** 33828942
 
-Sample code for Dynamic Web Applications module.
+This project is the completed implementation of the Berties Books web application for Lab 6.  
+It is a Node.js + Express web app connected to a MySQL database, using EJS templates for rendering and deployed on a Goldsmiths VM.
 
-Uses node.js with Express and EJS.
+---
 
-To install and run:
+## 1. How to Install and Run (Local Machine)
+
+### Clone the repository
+
+git clone https://github.com/zamin002/06_berties_33828942
+
+
+cd 06_berties_33828942
+
+
+### Install dependencies
 
 npm install
-node index.js
+
+
+### Set up the local MySQL database
+Start MySQL, then run:
+
+source create_db.sql;
+source insert_test_data.sql;
+
+
+### Run the application locally
+
+npm start
+
+
+The app will be available at:
+
+http://localhost:8000
+
+
+---
+
+## 2. Deployment on the Goldsmiths VM
+
+### SSH into your VM
+
+ssh <your-username>@doc.gold.ac.uk
+
+
+### Clone the repo and install modules
+
+git clone https://github.com/zamin002/06_berties_33828942
+
+
+cd 06_berties_33828942
+npm install
+
+
+### Set up the database on the VM
+Open MySQL:
+
+sudo mysql
+
+Run:
+
+source create_db.sql;
+source insert_test_data.sql;
+
+
+### Run the app using **forever**
+
+forever start main.js
+
+
+The live app will be available at:  
+
+http://www.doc.gold.ac.uk/usr/33828942/
+
+---
+
+## 3. App Features
+
+- View all books  
+- Add a new book  
+- List bargain books (price < £20)  
+- Search books (exact + partial match using LIKE)  
+- Displays results via EJS templates  
+- Works locally and on the VM  
+
+---
+
+## 4. Routes Summary
+
+| Route | Description |
+|-------|-------------|
+| `/books/list` | View all books |
+| `/books/addbook` | Add book form |
+| `/books/bookadded` | Insert new book |
+| `/books/bargainbooks` | Books under £20 |
+| `/books/search` | Search form |
+| `/books/search_result` | Search results |
+
+---
+
+## 5. Technologies Used
+
+- Node.js  
+- Express.js  
+- MySQL  
+- mysql2  
+- EJS  
+- CSS  
+- Forever  
+
+---

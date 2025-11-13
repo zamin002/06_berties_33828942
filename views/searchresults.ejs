@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results for "<%= keyword %>"</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+    <h1>Search Results for "<%= keyword %>"</h1>
+
+    <!--If no books match search-->
+    <% if (results.length === 0) { %>
+        <p>No books found</p>
+
+    <!--If matching books exist, show them as a list-->    
+    <% } else { %>
+        <ul>
+            <% results.forEach(book => { %>
+                <li>
+                    <strong><%= book.name %></strong> — £<%= book.price %>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
+    
+    <!--Links to start a new search or go back to home-->
+    <a href="/books/search">New search</a><br>
+    <a href="/">Back to Home</a>
+</body>
+</html>

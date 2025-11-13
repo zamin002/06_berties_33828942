@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bargain Books</title>
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+</head>
+<body>
+    <h1>Berties Bargain Sale!</h1>
+    <h2>Here are books under £20</h2>
+
+    <ul>
+        <% bargainBooks.forEach(book => { %>
+            <li>
+                <strong><%= book.name %></strong> — £<%= book.price %>
+            </li>
+        <% }) %>
+    </ul>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>
