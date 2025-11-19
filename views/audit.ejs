@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Audit Log</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Login Audit Log</h1>
+
+    <% if (entries.length === 0) { %>
+      <p>No login attempts recorded yet.</p>
+    <% } else { %>
+      <table>
+        <tr>
+          <th>Username</th>
+          <th>Success</th>
+          <th>IP address</th>
+          <th>Timestamp</th>
+        </tr>
+        <% entries.forEach(function(e) { %>
+          <tr>
+            <td><%= e.username %></td>
+            <td><%= e.success ? 'Yes' : 'No' %></td>
+            <td><%= e.ip_address %></td>
+            <td><%= e.timestamp %></td>
+          </tr>
+        <% }) %>
+      </table>
+    <% } %>
+
+    <p><a href="/">Back to Home</a></p>
+  </body>
+</html>
