@@ -44,7 +44,7 @@ router.get('/list', function(req,res,next) {
 
     db.query(sqlquery, (err,result) => {
         if(err){
-            next(err)
+            return next(err)
         }
         res.render("userslist.ejs", {users:result})
     })
