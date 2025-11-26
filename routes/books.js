@@ -1,6 +1,7 @@
 // Create a new router
 const express = require("express")
 const router = express.Router()
+const { check, validationResult } = require('express-validator');
 
 const redirectLogin = (req, res, next) => {
     if (!req.session.userId ) {
@@ -48,19 +49,37 @@ router.get('/bargainbooks', function(req,res,next) {
     })
 })
 
-router.post('/bookadded', function (req, res, next) {
-    // saving data in database
-    let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)"
-    // execute sql query
-    let newrecord = [req.body.name, req.body.price]
-    db.query(sqlquery, newrecord, (err, result) => {
-        if (err) {
-            next(err)
+router.post(
+    '/bookadded',
+    redirectLogin,
+    [
+        check('name').notEmpty(),
+        check('price').isFloat({ min: 0 })
+    ],
+    function (req, res, next) {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            // If validation fails, show the addbook form again
+            return res.render('addbook.ejs');
         }
-        else
-            res.send(' This book is added to database, name: '+ req.body.name + ' price '+ req.body.price)
-    })
-}) 
+
+        // saving data in database
+        const name = req.sanitize(req.body.name)
+        const price = req.body.price
+        
+        let sqlquery = "INSERT INTO books (name, price) VALUES (?, ?)";
+        let newrecord = [name, price];
+
+        db.query(sqlquery, newrecord, (err, result) => {
+            if (err) {
+                return next(err);
+            }
+            res.send(' This book is added to database, name: ' + name + ' price ' + price);
+        });
+    }
+);
+
 
 // Basic search 
 // router.get('/search_result', function(req,res,next) {
@@ -76,27 +95,38 @@ router.post('/bookadded', function (req, res, next) {
 //     })
 // })
 
-router.get('/search_result', function(req, res, next) {
-    // Get user input and store in keyword
-    let keyword = req.query.search_text;
+router.get('/search_result',
+    [
+        check('search_text').notEmpty()
+    ],
+    function(req, res, next) {
 
-    // Difference here is that LIKE is used instead of =?
-    let sqlquery = "SELECT * FROM books WHERE name LIKE ?";
-
-    // % allows for partial matching e.g. typing "B" gives books beginning with B
-    let searchTerm = "%" + keyword + "%"
-
-    // Run SQL query on the DB
-    db.query(sqlquery, [searchTerm], (err, result) => {
-        if (err) {
-            // Pass the error to the error handlre
-            next(err)
-        } else {
-            // Render the results page and pass matching books
-            res.render('searchresults.ejs', { results: result, keyword: keyword })
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            // Reload the search page if validation fails
+            return res.render('search.ejs');
         }
-    })
-})
+
+        // Get user input and store in keyword
+        let keyword = req.sanitize(req.query.search_text);
+
+        // Difference here is that LIKE is used instead of =?
+        let sqlquery = "SELECT * FROM books WHERE name LIKE ?";
+
+        // % allows for partial matching
+        let searchTerm = "%" + keyword + "%";
+
+        // Run SQL query on the DB
+        db.query(sqlquery, [searchTerm], (err, result) => {
+            if (err) {
+                next(err);
+            } else {
+                res.render('searchresults.ejs', { results: result, keyword: keyword });
+            }
+        });
+    }
+);
+
 
 
 

@@ -5,6 +5,7 @@ require('dotenv').config()
 const path = require('path')
 var mysql = require('mysql2')
 var session = require('express-session')
+const expressSanitizer = require('express-sanitizer');
 
 // Create the express application object
 const app = express()
@@ -28,6 +29,9 @@ app.use(express.urlencoded({ extended: true }))
 
 // Set up public folder (for css and static js)
 app.use(express.static(path.join(__dirname, 'public')))
+
+// Create an input sanitizer
+app.use(expressSanitizer());
 
 // Define our application-specific data
 app.locals.shopData = {shopName: "Bertie's Books"}
