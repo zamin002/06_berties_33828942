@@ -8,10 +8,10 @@
     <h1>Bertie's Books: Add book</h1>
 
     <form method="POST" action="/books/bookadded">
-        <p>Book name: <input id="name" type="text" name="name" /></p>
+        <p>Book name: <input id="name" type="text" name="name" required /></p>
 
         <!--step allows for decimal inputs-->
-        <p>Price: <input id="price" type="number" name="price" step="0.01" /></p>
+        <p>Price: <input id="price" type="number" name="price" step="0.01" required /></p>
         
         <button type="submit">Add Book</button> 
     </form>

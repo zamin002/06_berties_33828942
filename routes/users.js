@@ -2,6 +2,15 @@
 const express = require("express")
 const router = express.Router()
 const bcrypt = require('bcrypt')
+
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId ) {
+      res.redirect('./login') // redirect to the login page
+    } else { 
+        next (); // move to the next middleware function
+    } 
+}
+
 const saltRounds = 10
 
 router.get('/register', function (req, res, next) {
@@ -16,8 +25,7 @@ router.post('/registered', function (req, res, next) {
         //Store hashed passwords in your database
         if (err) {
             return next(err) 
-        }       
-        
+        }               
         
         const first = req.body.first
         const last = req.body.last
@@ -39,7 +47,7 @@ router.post('/registered', function (req, res, next) {
                                                                                  
 }); 
 
-router.get('/list', function(req,res,next) {
+router.get('/list', redirectLogin, function(req,res,next) {
     let sqlquery = "SELECT username, first_name, last_name, email FROM users;"
 
     db.query(sqlquery, (err,result) => {
@@ -94,9 +102,11 @@ router.post('/loggedin', function(req,res,next){
                 }
             })
 
-
+            // If log in successful    
             if(success){
-                res.send("Login successful")    
+                // Save user session here, when login is successful
+                req.session.userId = req.body.username;                
+                res.send("Login successful")
             }else {
                 res.send("login failed: incorrect username and/or password")
             }
@@ -104,7 +114,17 @@ router.post('/loggedin', function(req,res,next){
     })
 })
 
-router.get("/audit", function(req,res,next){
+router.get('/logout', redirectLogin, (req,res) => {
+    req.session.destroy(err => {
+    if (err) {
+        return res.redirect('./')
+    }
+    res.send('you are now logged out. <a href='+'/'+'>Home</a>'); //changed './' to just '/' 
+    })
+})
+
+// adding access control to the audit as well
+router.get("/audit", redirectLogin, function(req,res,next){
     const sql = "SELECT * FROM login_audit ORDER BY timestamp DESC"
 
     db.query(sql, function(err, results){
