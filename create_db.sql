@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS login_audit (
     username     VARCHAR(50),
     success     INT(1) NOT NULL,
     ip_address     VARCHAR(45),
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id));    
     
 # Create the application user
