@@ -51,8 +51,9 @@ router.post('/registered',
                 }
 
                 final_result = ' Hello ' + req.body.first + ' ' + req.body.last +
-                ' you are now registered!  We will send an email to you at ' + req.body.email +
-                ' Your password is: ' + req.body.password + ' and your hashed password is: ' + hashedPassword;
+                ' you are now registered!  We will send an email to you at ' + req.body.email 
+                // +
+                // ' Your password is: ' + req.body.password + ' and your hashed password is: ' + hashedPassword;
 
                 res.send(final_result);
             });

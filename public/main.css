@@ -41,3 +41,8 @@ a:link {
     text-decoration: none;
     padding:5px;
   }
+
+table, th, td {
+  border: 1px solid;
+  border-collapse: collapse;
+}
