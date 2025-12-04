@@ -251,3 +251,22 @@ Reason: GET routes simply display the page and contain no user-submitted data.
 I sanitised all user-submitted text fields that may appear in rendered HTML, such as first name, last name, email, username, and search queries.
 
 I did not sanitise passwords or numeric fields because sanitisation could modify the values and break either password hashing or numeric processing.
+---
+## 11. API
+
+**Endpoint:** `GET /api/books`
+
+Returns a JSON list of books.
+
+**Query parameters (optional):**
+
+- `search` – filter by book name (substring match)
+- `minprice` and `maxprice` – filter by price range
+- `sort` – `name` or `price`
+
+**Examples:**
+
+- `/api/books`
+- `/api/books?search=world`
+- `/api/books?minprice=5&maxprice=10`
+- `/api/books?sort=price`
